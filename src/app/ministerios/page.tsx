@@ -633,6 +633,12 @@ export default function MinistriesPage() {
   return (
     <>
       <style>{`
+        /* ── Side nav ── */
+        .min-side-nav { display: flex; }
+        @media (max-width: 900px) {
+          .min-side-nav { display: none !important; }
+        }
+
         /* ── Responsive ── */
         @media (max-width: 900px) {
           .min-row-inner {
@@ -763,36 +769,57 @@ export default function MinistriesPage() {
           </div>
         </section>
 
-        {/* ══ STICKY NAV ════════════════════════════════════════════════════ */}
-        <nav id="min-sticky" aria-label="Ministerios" style={{
-          position: 'sticky', top: 0, zIndex: 40,
-          background: 'rgba(7,8,15,.88)', backdropFilter: 'blur(16px)',
-          borderBottom: `1px solid ${BORDER}`,
-          display: 'flex', alignItems: 'center',
-          height: 50, padding: '0 32px',
-          overflowX: 'auto', scrollbarWidth: 'none',
-          gap: 4,
+        {/* ══ FLOATING SIDE INDICATOR ═══════════════════════════════════════ */}
+        <div className="min-side-nav" style={{
+          position: 'fixed', right: 24, top: '50%',
+          transform: 'translateY(-50%)',
+          zIndex: 40,
+          display: 'flex', flexDirection: 'column',
+          alignItems: 'flex-end', gap: 8,
         }}>
-          <div style={{ maxWidth: 1240, margin: '0 auto', display: 'flex', gap: 4, width: '100%' }}>
-            {MINISTRIES.map(m => {
-              const active = activeId === m.id
-              return (
-                <button key={m.id} onClick={() => scrollTo(m.id)} style={{
-                  all: 'unset', cursor: 'pointer',
-                  display: 'inline-flex', alignItems: 'center', gap: 6,
-                  padding: '5px 14px', borderRadius: 99,
-                  fontFamily: 'var(--font-manrope)', fontSize: 12, fontWeight: 600,
-                  color: active ? '#fff' : 'rgba(255,255,255,.4)',
-                  background: active ? m.color : 'transparent',
-                  boxShadow: active ? `0 4px 14px rgba(${m.rgb},.4)` : 'none',
-                  whiteSpace: 'nowrap', transition: 'all .25s',
+          {/* vertical line */}
+          <div style={{
+            position: 'absolute', right: 11, top: 0, bottom: 0, width: 1,
+            background: 'rgba(255,255,255,.1)', zIndex: 0,
+          }} />
+
+          {MINISTRIES.map(m => {
+            const active = activeId === m.id
+            return (
+              <button
+                key={m.id}
+                onClick={() => scrollTo(m.id)}
+                title={m.name}
+                style={{ all: 'unset', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 10, position: 'relative', zIndex: 1 }}
+              >
+                {/* label — slides in when active */}
+                <span style={{
+                  fontFamily: 'var(--font-manrope)', fontSize: 11, fontWeight: 700,
+                  color: m.color, letterSpacing: '0.1em', textTransform: 'uppercase',
+                  opacity: active ? 1 : 0,
+                  transform: active ? 'translateX(0)' : 'translateX(10px)',
+                  transition: 'opacity .35s ease, transform .35s ease',
+                  whiteSpace: 'nowrap',
+                  textShadow: `0 0 20px rgba(${m.rgb},.5)`,
+                }}>{m.name}</span>
+
+                {/* dot / icon */}
+                <div style={{
+                  width: active ? 24 : 8,
+                  height: active ? 24 : 8,
+                  borderRadius: '50%',
+                  background: active ? m.color : 'rgba(255,255,255,.22)',
+                  boxShadow: active ? `0 0 18px rgba(${m.rgb},.7), 0 0 6px rgba(${m.rgb},.4)` : 'none',
+                  transition: 'all .4s cubic-bezier(.16,1,.3,1)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  flexShrink: 0,
                 }}>
-                  <m.Icon size={12} />{m.name}
-                </button>
-              )
-            })}
-          </div>
-        </nav>
+                  {active && <m.Icon size={12} color="#fff" strokeWidth={2.5} />}
+                </div>
+              </button>
+            )
+          })}
+        </div>
 
         {/* ══ MINISTRY ROWS ═════════════════════════════════════════════════ */}
         {MINISTRIES.map((m, i) => <MinistryRow key={m.id} m={m} idx={i} />)}

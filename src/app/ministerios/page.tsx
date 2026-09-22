@@ -633,6 +633,20 @@ export default function MinistriesPage() {
   return (
     <>
       <style>{`
+        /* ── Hero two-col ── */
+        .hero-two-col {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 64px;
+          align-items: center;
+          padding: 40px 0 60px;
+        }
+        .hero-collage { display: block; }
+        @media (max-width: 1024px) {
+          .hero-two-col { grid-template-columns: 1fr; gap: 48px; }
+          .hero-collage { display: none; }
+        }
+
         /* ── Side nav ── */
         .min-side-nav { display: flex; }
         @media (max-width: 900px) {
@@ -691,80 +705,96 @@ export default function MinistriesPage() {
         {/* ══ HERO ══════════════════════════════════════════════════════════ */}
         <section style={{
           position: 'relative', overflow: 'hidden',
-          paddingTop: 130, paddingBottom: 80,
-          background: `linear-gradient(160deg, #0D0D1A 0%, ${BG} 65%)`,
+          paddingTop: 120, paddingBottom: 0,
+          background: 'linear-gradient(160deg, #0D0D1A 0%, #07080F 65%)',
           borderBottom: `1px solid ${BORDER}`,
+          minHeight: '92vh',
+          display: 'flex', alignItems: 'center',
         }}>
-          {/* decorative rings */}
-          {[380, 240].map((s, i) => (
-            <div key={s} aria-hidden style={{
-              position: 'absolute', top: '50%', right: `${i * 8 + 3}%`,
-              transform: 'translateY(-50%)',
-              width: s, height: s, borderRadius: '50%',
-              border: `1px solid rgba(245,168,0,${i === 0 ? .09 : .05})`,
-              pointerEvents: 'none',
-            }} />
-          ))}
-          {/* red glow */}
-          <div aria-hidden style={{ position: 'absolute', bottom: -60, left: -60, width: 420, height: 420, borderRadius: '50%', background: 'radial-gradient(circle,rgba(204,34,41,.09) 0%,transparent 70%)', pointerEvents: 'none' }} />
-          {/* dot grid */}
-          <div aria-hidden style={{ position: 'absolute', top: '12%', right: '7%', width: 200, height: 200, backgroundImage: 'radial-gradient(circle,rgba(255,255,255,.06) 1px,transparent 1px)', backgroundSize: '20px 20px', pointerEvents: 'none' }} />
+          {/* ambient glows */}
+          <div aria-hidden style={{ position: 'absolute', top: '20%', left: '-5%', width: 500, height: 500, borderRadius: '50%', background: 'radial-gradient(circle,rgba(204,34,41,.07) 0%,transparent 70%)', pointerEvents: 'none' }} />
+          <div aria-hidden style={{ position: 'absolute', bottom: '10%', right: '30%', width: 400, height: 400, borderRadius: '50%', background: 'radial-gradient(circle,rgba(124,58,237,.05) 0%,transparent 70%)', pointerEvents: 'none' }} />
 
-          <div style={{
-            maxWidth: 1240, margin: '0 auto', padding: '0 32px',
-            opacity: mounted ? 1 : 0,
-            transform: mounted ? 'none' : 'translateY(24px)',
-            transition: 'opacity .9s ease, transform .9s cubic-bezier(.16,1,.3,1)',
-          }}>
-            {/* breadcrumb */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 28 }}>
-              <a href="/" style={{ fontFamily: 'var(--font-manrope)', fontSize: 12, fontWeight: 500, color: MUTED, textDecoration: 'none', transition: 'color .2s' }}
-                onMouseEnter={e => e.currentTarget.style.color = '#fff'}
-                onMouseLeave={e => e.currentTarget.style.color = MUTED}
-              >Inicio</a>
-              <ChevronRight size={12} style={{ color: 'rgba(255,255,255,.2)' }} />
-              <span style={{ fontFamily: 'var(--font-manrope)', fontSize: 12, fontWeight: 600, color: '#F5A800' }}>Ministerios</span>
-            </div>
+          <div style={{ maxWidth: 1240, margin: '0 auto', padding: '0 32px', width: '100%' }}>
+            <div className="hero-two-col">
 
-            {/* headline */}
-            <h1 id="min-hero-title" style={{
-              fontFamily: 'var(--font-manrope)',
-              fontSize: 'clamp(44px,5.5vw,76px)',
-              fontWeight: 800, color: '#fff',
-              lineHeight: 1.02, letterSpacing: '-0.03em',
-              marginBottom: 20,
-            }}>
-              Nuestros<br />
-              <span style={{ color: '#CC2229' }}>Ministerios</span>
-            </h1>
+              {/* ── LEFT: text ── */}
+              <div style={{
+                opacity: mounted ? 1 : 0,
+                transform: mounted ? 'none' : 'translateX(-24px)',
+                transition: 'opacity .9s ease, transform .9s cubic-bezier(.16,1,.3,1)',
+              }}>
+              
 
-            <p style={{
-              fontFamily: 'var(--font-inter)', fontSize: 16, fontWeight: 300,
-              color: BODY, lineHeight: 1.85, maxWidth: 480, marginBottom: 44,
-            }}>
-              Cinco espacios de crecimiento, comunidad y servicio donde cada persona encuentra su lugar en la familia de La Vid Verdadera.
-            </p>
+                {/* eyebrow */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 20 }}>
+                  <span style={{ width: 28, height: 2.5, background: '#CC2229', borderRadius: 99, flexShrink: 0 }} />
+                  <span style={{ fontFamily: 'var(--font-manrope)', fontSize: 10, fontWeight: 700, color: '#CC2229', letterSpacing: '0.22em', textTransform: 'uppercase' }}>La Vid Verdadera</span>
+                </div>
 
-            {/* ministry pills */}
-            <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-              {MINISTRIES.map((m, i) => (
-                <button key={m.id} onClick={() => scrollTo(m.id)} style={{
-                  all: 'unset', cursor: 'pointer',
-                  display: 'inline-flex', alignItems: 'center', gap: 8,
-                  background: SURFACE, border: `1px solid ${BORDER}`,
-                  borderRadius: 99, padding: '9px 16px',
-                  fontFamily: 'var(--font-manrope)', fontSize: 13, fontWeight: 600,
-                  color: 'rgba(255,255,255,.6)', transition: 'all .2s',
-                  opacity: mounted ? 1 : 0,
-                  transform: mounted ? 'none' : 'translateY(12px)',
-                  transitionDelay: `${i * 55}ms`,
-                }}
-                  onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.background = m.color; el.style.borderColor = m.color; el.style.color = '#fff'; el.style.transform = 'translateY(-2px)'; el.style.boxShadow = `0 8px 20px rgba(${m.rgb},.4)` }}
-                  onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background = SURFACE; el.style.borderColor = BORDER; el.style.color = 'rgba(255,255,255,.6)'; el.style.transform = ''; el.style.boxShadow = '' }}
-                >
-                  <m.Icon size={13} />{m.name}
-                </button>
-              ))}
+                {/* headline */}
+                <h1 style={{
+                  fontFamily: 'var(--font-manrope)',
+                  fontSize: 'clamp(48px,5.5vw,80px)',
+                  fontWeight: 800, color: '#fff',
+                  lineHeight: 1.0, letterSpacing: '-0.03em',
+                  marginBottom: 24,
+                }}>
+                  Nuestros<br />
+                  <span style={{
+                    color: 'transparent',
+                    WebkitTextStroke: '2px #CC2229',
+                  }}>Ministerios</span>
+                </h1>
+
+                <p style={{
+                  fontFamily: 'var(--font-inter)', fontSize: 16, fontWeight: 300,
+                  color: BODY, lineHeight: 1.85, maxWidth: 440, marginBottom: 40,
+                }}>
+                  Cinco espacios de crecimiento, comunidad y servicio donde cada persona encuentra su lugar en la familia de La Vid Verdadera.
+                </p>
+
+
+              </div>
+
+              {/* ── RIGHT: image collage ── */}
+              <div className="hero-collage" style={{
+                opacity: mounted ? 1 : 0,
+                transform: mounted ? 'none' : 'translateX(24px)',
+                transition: 'opacity 1s ease .2s, transform 1s cubic-bezier(.16,1,.3,1) .2s',
+              }}>
+                {/* 2x2 grid + 1 tall card on the right */}
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gridTemplateRows: '200px 200px', gap: 10, height: 410 }}>
+                  {MINISTRIES.map((m, i) => {
+                    const MIcon = m.Icon
+                    const isTall = i === 2
+                    return (
+                      <div key={m.id} style={{
+                        gridColumn: isTall ? '3' : i < 2 ? String(i + 1) : String(i - 1),
+                        gridRow: isTall ? '1 / 3' : i < 2 ? '1' : '2',
+                        borderRadius: 16, overflow: 'hidden', position: 'relative',
+                      }}>
+                        <img src={m.image} alt={m.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                        <div style={{ position: 'absolute', inset: 0, background: `linear-gradient(to top, rgba(${m.rgb},.72) 0%, transparent 60%)` }} />
+                        <div style={{ position: 'absolute', bottom: isTall ? 16 : 12, left: isTall ? 16 : 12, display: 'flex', alignItems: 'center', gap: 6 }}>
+                          <div style={{ width: isTall ? 24 : 22, height: isTall ? 24 : 22, borderRadius: '50%', background: m.color, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                            <MIcon size={isTall ? 12 : 11} color="#fff" />
+                          </div>
+                          <span style={{ fontFamily: 'var(--font-manrope)', fontSize: isTall ? 12 : 11, fontWeight: 700, color: '#fff' }}>{m.name}</span>
+                        </div>
+                      </div>
+                    )
+                  })}
+                </div>
+
+                {/* scroll hint */}
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, marginTop: 20, opacity: 0.4 }}>
+                  <div style={{ width: 1, height: 20, background: 'rgba(255,255,255,.4)' }} />
+                  <span style={{ fontFamily: 'var(--font-manrope)', fontSize: 10, fontWeight: 600, color: 'rgba(255,255,255,.5)', letterSpacing: '0.15em', textTransform: 'uppercase' }}>Scroll para explorar</span>
+                  <div style={{ width: 1, height: 20, background: 'rgba(255,255,255,.4)' }} />
+                </div>
+              </div>
+
             </div>
           </div>
         </section>

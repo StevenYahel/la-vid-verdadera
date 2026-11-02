@@ -50,14 +50,11 @@ export const STATS = [
   { value: '1',    label: 'Misión' },
 ]
 
-// Cada link tiene:
-//   href      → ruta o ancla usada en la HOME (/)
-//   page      → ruta real para navegar desde subpáginas
-//   homeAnchor → ancla dentro de la home
+
 export const NAV_LINKS = [
   { href: '/',              homeAnchor: '#inicio',      label: 'Inicio' },
   { href: '/nosotros',      homeAnchor: '#nosotros',    label: 'Nosotros' },
-  { href: '/#ministerios',  homeAnchor: '#ministerios', label: 'Ministerios' },
+  { href: '/ministerios',   homeAnchor: '#ministerios', label: 'Ministerios' },
   { href: '/#horarios',     homeAnchor: '#horarios',    label: 'Horarios' },
   { href: '/#galeria',      homeAnchor: '#galeria',     label: 'Galería' },
   { href: '/#contacto',     homeAnchor: '#contacto',    label: 'Contacto' },

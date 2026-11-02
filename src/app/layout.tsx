@@ -115,15 +115,13 @@ export const metadata: Metadata = {
     apple: '/apple-touch-icon.png',
   },
 
-  alternates: {
-    canonical: BASE_URL,
-  },
+  // ⚠️ NO poner canonical aquí: el layout lo heredan TODAS las páginas y
+  // les diría a Google que son copias de la home. Cada página define el suyo.
 
   // ─── Open Graph ─────────────────────────────────────────────────────────────
   openGraph: {
     type: 'website',
     locale: 'es_CO',
-    url: BASE_URL,
     siteName: SITE.name,
     title: `${SITE.name} — Iglesia Cristiana Cuadrangular en Buritaca, Magdalena`,
     description: SITE.description,

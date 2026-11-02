@@ -9,9 +9,11 @@ import Navbar from '@/components/sections/Navbar'
 import Footer from '@/components/sections/Footer'
 
 export const metadata: Metadata = {
-  title: 'Nuestra Historia — La Vid Verdadera',
+  // El template del layout agrega " — La Vid Verdadera" automáticamente
+  title: 'Nuestra Historia',
   description:
     'Conoce la historia, visión y misión de la Iglesia Cristiana Cuadrangular La Vid Verdadera en Buritaca, Magdalena.',
+  alternates: { canonical: '/nosotros' },
 }
 
 export default function NosotrosPage() {
